@@ -1,0 +1,11 @@
+# Python / uv
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Claude Code: personal, machine-specific settings (the project skill in .claude/skills/ IS committed)
+.claude/settings.local.json
+
+# Machine-specific MCP registration (the server is registered at local scope instead)
+.mcp.json

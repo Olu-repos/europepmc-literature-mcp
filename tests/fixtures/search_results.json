@@ -1,0 +1,97 @@
+{
+  "version": "6.9",
+  "hitCount": 137,
+  "nextCursorMark": "AoIIQ",
+  "request": {
+    "queryString": "fixture",
+    "resultType": "core"
+  },
+  "resultList": {
+    "result": [
+      {
+        "id": "99000001",
+        "source": "MED",
+        "title": "[FIXTURE] Longitudinal tracking of TCR clonotypes after adoptive T-cell transfer",
+        "authorString": "Fixture A, Example B.",
+        "journalInfo": {
+          "journal": {
+            "title": "Journal of Test Fixtures"
+          },
+          "printPublicationDate": "2024-03"
+        },
+        "pubYear": "2024",
+        "firstPublicationDate": "2024-03-01",
+        "pubTypeList": {
+          "pubType": [
+            "research-article",
+            "Journal Article"
+          ]
+        },
+        "isOpenAccess": "Y",
+        "citedByCount": 12,
+        "abstractText": "<h4>Background</h4>Synthetic abstract for tests. Infused clonotypes were detected in blood up to 12 months &amp; persistence <i>correlated</i> with response.",
+        "pmid": "99000001",
+        "pmcid": "PMC9900001",
+        "doi": "10.5555/fixture.1",
+        "fullTextUrlList": {
+          "fullTextUrl": [
+            {
+              "availability": "Open access",
+              "availabilityCode": "OA",
+              "documentStyle": "html",
+              "site": "Europe_PMC",
+              "url": "https://europepmc.org/articles/PMC9900001"
+            }
+          ]
+        }
+      },
+      {
+        "id": "99000002",
+        "source": "MED",
+        "title": "[FIXTURE] T-cell persistence in cellular therapy: a review",
+        "authorString": "Fixture A, Example B.",
+        "journalInfo": {
+          "journal": {
+            "title": "Journal of Test Fixtures"
+          },
+          "printPublicationDate": "2023-11"
+        },
+        "pubYear": "2023",
+        "firstPublicationDate": "2023-11-15",
+        "pubTypeList": {
+          "pubType": [
+            "Review",
+            "Journal Article"
+          ]
+        },
+        "isOpenAccess": "N",
+        "citedByCount": 0,
+        "abstractText": "Synthetic review abstract. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. Long text. ",
+        "pmid": "99000002",
+        "doi": "10.5555/fixture.2"
+      },
+      {
+        "id": "PPR990003",
+        "source": "PPR",
+        "title": "[FIXTURE] Preprint on clonal kinetics",
+        "authorString": "Fixture A, Example B.",
+        "journalInfo": {
+          "journal": {
+            "title": "Journal of Test Fixtures"
+          },
+          "printPublicationDate": "2025-01"
+        },
+        "pubYear": "2025",
+        "firstPublicationDate": "2025-01-20",
+        "pubTypeList": {
+          "pubType": [
+            "Preprint"
+          ]
+        },
+        "isOpenAccess": "N",
+        "citedByCount": 0,
+        "doi": "10.5555/fixture.3"
+      }
+    ]
+  }
+}

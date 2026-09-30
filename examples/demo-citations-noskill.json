@@ -1,0 +1,214 @@
+{
+  "source": "2026-09-30-095644-which-skills-are-available-in-this-project-lite.txt (skill removed; Claude Code v2.1.285; answered by Opus 5 after a safeguard flag on Opus 5.5)",
+  "note": "Label 'primary' is applied to every paper the answer relied on or discussed as research, including those it called adjacent. The quotes are the short words the answer attributed to authors.",
+  "citations": [
+    {
+      "identifier": "40341231",
+      "pmcid": "PMC12987398",
+      "doi": "10.1038/s43018-025-00946-x",
+      "first_author": "Wang",
+      "year": 2025,
+      "label": "primary",
+      "quotes": [
+        "suggesting"
+      ]
+    },
+    {
+      "identifier": "42575986",
+      "pmcid": "PMC13577893",
+      "doi": "10.1038/s41591-026-04578-1",
+      "first_author": "Paruzzo",
+      "year": 2026,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "31845905",
+      "pmcid": "PMC6994131",
+      "doi": "10.1172/jci130144",
+      "first_author": "Nobles",
+      "year": 2020,
+      "label": "primary",
+      "quotes": [
+        "suggested"
+      ]
+    },
+    {
+      "identifier": "40973768",
+      "pmcid": "PMC12634420",
+      "doi": "10.1038/s41375-025-02766-5",
+      "first_author": "Frede",
+      "year": 2025,
+      "label": "primary",
+      "quotes": [
+        "may contribute"
+      ]
+    },
+    {
+      "identifier": "42189877",
+      "pmcid": "PMC13530986",
+      "doi": "10.1158/1078-0432.ccr-25-4130",
+      "first_author": "Guo",
+      "year": 2026,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "41486415",
+      "pmcid": "PMC13292159",
+      "doi": "10.1002/advs.202521555",
+      "first_author": "Zhang",
+      "year": 2026,
+      "label": "primary",
+      "quotes": [
+        "mechanistically linked"
+      ]
+    },
+    {
+      "identifier": "41267983",
+      "pmcid": "PMC12626815",
+      "doi": "10.3389/fonc.2025.1693912",
+      "first_author": "Arruda",
+      "year": 2025,
+      "label": "primary",
+      "quotes": [
+        "correlating with",
+        "coincided with"
+      ]
+    },
+    {
+      "identifier": "41214679",
+      "pmcid": "PMC12604393",
+      "doi": "10.1186/s12967-025-07106-w",
+      "first_author": "Fang",
+      "year": 2025,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "38769543",
+      "pmcid": "PMC11106999",
+      "doi": "10.1186/s12916-024-03420-0",
+      "first_author": "Guo",
+      "year": 2024,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "38750113",
+      "doi": "10.1038/s41416-024-02707-6",
+      "first_author": "Ham",
+      "year": 2024,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "35110355",
+      "pmcid": "PMC8811607",
+      "doi": "10.1136/jitc-2021-003082",
+      "first_author": "Shah",
+      "year": 2022,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "37001526",
+      "doi": "10.1016/j.ccell.2023.03.009",
+      "first_author": "Pai",
+      "year": 2023,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "42503644",
+      "pmcid": "PMC13418702",
+      "first_author": "Ishihara",
+      "year": 2026,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "42236119",
+      "pmcid": "PMC13239385",
+      "doi": "10.1136/jitc-2025-013020",
+      "first_author": "Ferry",
+      "year": 2026,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "41348132",
+      "pmcid": "PMC12802582",
+      "doi": "10.1158/2326-6066.cir-25-0514",
+      "first_author": "Wittling",
+      "year": 2026,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "36755094",
+      "pmcid": "PMC10511001",
+      "doi": "10.1038/s41586-022-05692-z",
+      "first_author": "Jain",
+      "year": 2023,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "39388542",
+      "pmcid": "PMC11697317",
+      "doi": "10.1126/science.adl4492",
+      "first_author": "Kang",
+      "year": 2024,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "42440569",
+      "pmcid": "PMC13333395",
+      "first_author": "Li",
+      "year": 2026,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "42215073",
+      "pmcid": "PMC13221245",
+      "first_author": "Turnquist",
+      "year": 2026,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "41719158",
+      "pmcid": "PMC13227094",
+      "first_author": "Ao",
+      "year": 2026,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "41943833",
+      "pmcid": "PMC13050436",
+      "first_author": "Zhao",
+      "year": 2026,
+      "label": "primary",
+      "quotes": []
+    },
+    {
+      "identifier": "40540506",
+      "pmcid": "PMC12251145",
+      "doi": "10.1371/journal.pbio.3003179",
+      "first_author": "Koftori",
+      "year": 2025,
+      "label": "primary",
+      "quotes": []
+    }
+  ],
+  "mentioned_only": [
+    "PMC13254486",
+    "PMC8901205",
+    "MED:27102541",
+    "MED:42633749"
+  ]
+}

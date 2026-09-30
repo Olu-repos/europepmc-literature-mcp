@@ -1,0 +1,236 @@
+ ▐▛███▛█   Claude Code v2.1.285
+▝▜██████▀  Opus 5.5 · Claude Pro
+ ▝▝   ▝▝   ~\path\to\mcp-server   [path redacted]
+
+  Opus 5.5 is now your default model and it draws down usage faster than Sonnet 5. Switch anytime with /model.
+
+> /model 
+  ⎿  Kept model as Opus 5.5 (default)
+
+> Which skills are available in this project?. literature-evidence must not be  
+  listed.                                                                       
+
+● These are the skills available in this session:
+
+  Built-in
+  - dataviz — charts, graphs, dashboards and other data visualisation
+  - artifact-design — design guidance for Artifacts
+  - artifact-diagramming — diagrams inside Artifacts
+  - artifact-capabilities — runtime capabilities for published Artifacts
+  - update-config — configure settings.json (hooks, permissions, env vars)
+  - keybindings-help — customise keyboard shortcuts
+  - code-review — review a diff, PR or branch for bugs
+  - simplify — clean up changed code for reuse and efficiency
+  - fewer-permission-prompts — build an allowlist from your transcripts
+  - loop — run a prompt or command on a recurring interval
+  - schedule — create and manage scheduled cloud agents
+  - claude-api — reference for the Claude API and Anthropic SDK
+  - claude-in-chrome — automate your Chrome browser
+  - run — launch and drive this project's app
+  - init — create a CLAUDE.md for the codebase
+  - security-review — security review of pending changes
+
+  Plugin (anthropic-skills)
+  - anthropic-skills:docs — editable, shareable Claude Docs
+  - anthropic-skills:docx — Word documents
+  - anthropic-skills:google-workspace — Google Docs, Sheets and Slides
+  - anthropic-skills:import-memory — import memory from another AI assistant
+  - anthropic-skills:morning — morning brief
+  - anthropic-skills:pdf — PDF files
+  - anthropic-skills:pptx — PowerPoint files
+  - anthropic-skills:skill-creator — create, edit and evaluate skills
+  - anthropic-skills:xlsx — spreadsheets
+
+  literature-evidence is not loaded in this session, so it does not appear
+  above. I did not check the project's .claude/skills folder on disk, so this
+  reflects what the session loaded, not what files exist there.
+
+✻ Worked for 8s · done 9:47 AM
+
+> Find primary studies on TCR clonotype persistence after adoptive T-cell       
+  therapy. Separate observed associations from evidence of causation, and give  
+  identifiers for the papers used.                                              
+
+● Opus 5.5's safeguards stopped the response above · continuing once 
+  with that noted
+
+● I'll search Europe PMC directly.
+
+  Called europepmc 6 times (ctrl+o to expand)
+
+● Opus 5.5's safeguards flagged this session. You may be seeing this for the first time: Opus 5.5 is more capable and has stronger safeguards as a result, which can sometimes flag biology-research-adjacent work. We're improving these safeguards to reduce the amount of incorrectly flagged messages. Opus 5 is answering instead, or you can edit and retry with Opus 5.5. Send feedback with /feedback or learn more: https://support.claude.com/en/articles/8106465
+
+  Details: `[bio]`
+  ⎿  Tip: You can configure model switch behavior in /config
+
+● What I searched
+
+  Europe PMC, four queries (TCR clonotype + persistence + adoptive transfer;
+  clonal persistence + CAR-T + TCR-seq; clonotype/clonal + persistence +
+  melanoma/TIL; stem-like memory + adoptive transfer + persistence), excluding
+  reviews. Results are Europe PMC relevance order, not a systematic search. I 
+  read abstracts only — no full text was retrieved, so study designs below are
+  as the abstracts describe them and I could not check sample sizes, statistics,
+  or whether stated associations survive adjustment. Conference abstract books
+  that matched (PMC13254486, PMC8901205, MED:27102541, MED:42633749) are
+  excluded as not primary reports.
+
+  Observed associations (human, longitudinal, non-interventional)
+
+  These track clonotypes over time and relate persistence to outcome. None
+  manipulates persistence, so none isolates it as a cause.
+
+  Study: Wang et al., Nat Cancer 2025 — PMID 40341231, PMC12987398, doi
+  10.1038/s43018-025-00946-x
+  Design: Time-serial tumour + blood, NSCLC TIL trial
+  What was observed: Decay of antigen-reactive peripheral clonotypes associated 
+  with progression; tumour-reactive clones in non-benefiting patients showed a
+  dysfunctional program and lacked stem-like features. Targeted subclonal
+  neoantigens absent at progression — authors say "suggesting" adaptive
+  resistance
+  ────────────────────────────────────────
+  Study: Paruzzo et al., Nat Med 2026 — PMID 42575986, PMC13577893, doi
+  10.1038/s41591-026-04578-1
+  Design: 38 NHL patients, CD19 CAR-T, up to 10 yr
+  What was observed: Oligoclonal persistence at 9.3 yr; the dominant clone (70%
+  of CAR T cells) was already detectable at <0.1% at day 14. Natural-history
+  description
+  ────────────────────────────────────────
+  Study: Nobles et al., JCI 2020 — PMID 31845905, PMC6994131, doi
+  10.1172/jci130144
+  Design: 39 patients, vector integration-site sequencing
+  What was observed: Integration sites enriched in responders fell in
+  cell-signalling/chromatin genes; multivariate model predicted response in
+  discovery and validation cohorts. Authors frame insertional mutagenesis as
+  "suggested," not shown
+  ────────────────────────────────────────
+  Study: Frede et al., Leukemia 2025 — PMID 40973768, PMC12634420, doi
+  10.1038/s41375-025-02766-5
+  Design: Single-cell, BCMA CAR-T myeloma
+  What was observed: A transitional CD8 population predictive of poor outcome;
+  endogenous repertoire depletion. Authors' wording: these changes "may
+  contribute"
+  ────────────────────────────────────────
+  Study: Guo et al., Clin Cancer Res 2026 — PMID 42189877, PMC13530986, doi
+  10.1158/1078-0432.ccr-25-4130
+  Design: Phase I, 18 patients, engineered TIL
+  What was observed: Morisita overlap index (product↔blood repertoire sharing) a
+
+  significant predictor of outcome — exploratory endpoint, unconfirmed ORR
+  ────────────────────────────────────────
+  Study: Zhang et al., Adv Sci 2026 — PMID 41486415, PMC13292159, doi
+  10.1002/advs.202521555
+  Design: 4 patients, acral melanoma
+  What was observed: Dominant TEX_int-derived clone persisted systemically in
+  the
+  complete responder. The abstract says durable response is "mechanistically
+  linked" to persistence — with n=4 and no perturbation, that is an
+  association, and the wording overreaches
+  ────────────────────────────────────────
+  Study: Arruda et al., Front Oncol 2025 — PMID 41267983, PMC12626815, doi
+  10.3389/fonc.2025.1693912
+  Design: n=1, 5-yr TCR tracking, serial TIL + anti-PD-1
+  What was observed: TIL-derived clones persisted 5 yr; expansions "correlating
+  with" response; pembrolizumab "coincided with" re-expansion. Temporal
+  coincidence in one patient
+  ────────────────────────────────────────
+  Study: Fang et al., J Transl Med 2025 — PMID 41214679, PMC12604393, doi
+  10.1186/s12967-025-07106-w
+  Design: 6 patients, BCMA CAR-T
+  What was observed: Polyclonal→oligoclonal shift in the one sustained responder
+  ────────────────────────────────────────
+  Study: Guo et al., BMC Med 2024 — PMID 38769543, PMC11106999, doi
+  10.1186/s12916-024-03420-0
+  Design: Phase I, IL-2-free TIL
+  What was observed: Day-14 CD8/CD4 ratio associated with longer OS; persistence
+
+  a secondary endpoint
+
+  Two further papers are often cited in this area but measure ex vivo clonotype
+  retention through manufacturing, not persistence in the patient — a different
+  claim: Ham et al., BJC 2024 (PMID 38750113, doi 10.1038/s41416-024-02707-6)
+  and Shah et al., JITC 2022 (PMID 35110355, PMC8811607, doi
+  10.1136/jitc-2021-003082).
+
+  Adjacent, not adoptive therapy: Pai et al., Cancer Cell 2023 (PMID 37001526,
+  doi 10.1016/j.ccell.2023.03.009) clonally links exhausted tumour-specific CD8
+  cells to TCF7⁺SELL⁺ nodal progenitors and shows persistence in blood years
+  after checkpoint blockade — clonal lineage inference, observational. Ishihara
+  et al., Oncoimmunology 2026 (PMID 42503644, PMC13418702) found high-avidity
+  HPV E6* TCRs persisted in metastasis while low-avidity clones were lost; the
+  avidity measurement is functional, the persistence is observed.
+
+  Evidence bearing on causation
+
+  All of it is in mice or in vitro. The designs differ in how much they license
+  a causal claim:
+
+  Removal experiments — the strongest form here. Ferry et al., JITC 2026 (PMID
+  42236119, PMC13239385, doi 10.1136/jitc-2025-013020): depleting armoured CAR T
+  cells in preconditioned mice caused loss of durable tumour control. This
+  shows continued presence of the transferred population is required for the
+  effect. It does not show that persistence of particular clonotypes is causal —
+  the depletion removes the whole population.
+
+  Necessity of a step. Wittling et al., Cancer Immunol Res 2026 (PMID 41348132,
+  PMC12802582, doi 10.1158/2326-6066.cir-25-0514): manipulating antigen avidity
+  changed persistence and efficacy together; early lymph-node trafficking was
+  shown essential; efficacy survived loss of host T and B cells.
+
+  Loss- and gain-of-function on persistence programs. Jain et al., Nature 2023
+  (PMID 36755094, PMC10511001, doi 10.1038/s41586-022-05692-z) — TET2 disruption
+  drives antigen-independent CAR T clonal expansion, requiring biallelic loss
+  and sustained BATF3 via a MYC-dependent program; a dependency structure, not
+  just a correlation, and it cuts against reading persistence as uniformly good.
+  Kang et al., Science 2024 (PMID 39388542, PMC11697317, doi
+  10.1126/science.adl4492) — Dnmt3a/Tet2/Asxl1-deficient CD8 cells preserve a
+  progenitor-exhausted pool >1 year; note the human arm of that paper (survival
+  advantage of mutated T cells in treated patients) is associative, not causal.
+  Li et al., Front Immunol 2026 (PMID 42440569, PMC13333395) — NOSIP
+  overexpression increases persistence and tumour control.
+
+  Mechanistic but persistence only inferred. Turnquist et al., J Immunol 2026
+  (PMID 42215073, PMC13221245) — PI3Kδ inhibition preserves stemness markers. Ao
+  et al., Cancer Immunol Res 2026 (PMID 41719158, PMC13227094) — IL-15 lowers
+  the TCR signalling threshold of TIL clonotypes in 3D models; no in vivo
+  persistence measured. Zhao et al., Int J Biol Sci 2026 (PMID 41943833,
+  PMC13050436) — CD39⁺CD8⁺ TIL reinfusion controls tumours in mice
+  (interventional), while the patient-level clonality findings in the same paper
+  are observational.
+
+  Human quantitative dynamics, not adoptive therapy. Koftori et al., PLoS Biol
+  2025 (PMID 40540506, PMC12251145, doi 10.1371/journal.pbio.3003179) used
+  long-term in vivo labelling in volunteers to show CD95int and CD95hi TSCM are
+  distinct populations with different clonal longevity. This is the most direct
+  human evidence about which cells have staying power, but it is not a therapy
+  study and tests no outcome.
+
+  The gap, stated plainly
+
+  I found no human study that experimentally manipulates clonotype persistence
+  in adoptive T-cell therapy and measures the effect on outcome. Every human
+  result above is correlative. That matters because of two specific problems the
+  abstracts do not resolve:
+
+  - Reverse causation is live throughout. Persisting clones need antigen. Tumour
+    regression removes antigen, which can reduce persistence; tumour
+    progression sustains antigen, which can sustain it. So "clones decayed and
+    the patient progressed" (40341231) and "clones persisted and the patient
+    responded" (41267983) are both compatible with persistence being a readout
+    of tumour control rather than its cause.
+  - Persistence is not intrinsically favourable. The TET2/BATF3 work (36755094)
+    shows clonal persistence can be a proliferative, reduced-effector state
+    prone to secondary mutations — so "more persistence" and "better therapy"
+    are not the same variable.
+
+  Two further caveats on the evidence base: many of the hits are 2026 papers
+  with zero or low citation counts, so they are unreplicated; and several were
+  single-patient or ≤6-patient reports where the abstract's causal language
+  ("mechanistically linked," "drive") exceeds the design.
+
+  If you want this firmed up, the useful next step is pulling full text on
+  40341231, 42575986 and 31845905 — those three carry the most weight and are
+  the ones where the statistical handling actually determines how much the
+  associations are worth.
+
+✻ Worked for 2m 2s · done 9:56 AM

@@ -1,0 +1,283 @@
+ ▐▛███▛█   Claude Code v2.1.285
+▝▜██████▀  Opus 5.5 · Claude Pro
+ ▝▝   ▝▝   ~\path\to\mcp-server   [path redacted]
+
+  Opus 5.5 is now your default model and it draws down usage faster than Sonnet 5. Switch anytime with /model.
+
+>    Which skills are available in this project?                                
+
+  Searched for 1 pattern (ctrl+o to expand)
+
+● This project defines one skill of its own:
+
+  - literature-evidence, in .claude/skills/literature-evidence/SKILL.md. It
+    answers biomedical literature questions, especially on T-cell and
+    cell-therapy research, using the Europe PMC MCP tools (search_literature,
+    get_article). Use it to find, compare or cite papers, or to judge what
+    published evidence supports a claim.
+
+  There's also a SKILL.md at
+  .venv/Lib/site-packages/typer/.agents/skills/typer/, but it comes with the
+  installed typer package. Claude Code doesn't load it as a skill.
+
+  Other skills available in this session come from Claude Code itself or your
+  account, not from this project:
+
+  - Coding: code-review, simplify, security-review, init, run, claude-api
+  - Claude Code setup: update-config, keybindings-help,
+    fewer-permission-prompts, statusline-setup (this one is an agent, not a
+    skill)
+  - Scheduling: loop, schedule
+  - Artifacts and visuals: artifact-design, artifact-diagramming,
+    artifact-capabilities, dataviz
+  - Documents and files: anthropic-skills:docs, docx, pdf, pptx, xlsx,
+    google-workspace
+  - Other: claude-in-chrome, anthropic-skills:skill-creator, import-memory,
+    morning
+
+  To run one, type /<name> (for example /literature-evidence), or just ask a
+  matching question and I'll invoke it.
+
+✻ Brewed for 7s · done 12:40 AM
+
+>    Find primary studies on TCR clonotype persistence after adoptive T-cell    
+  therapy. Separate observed associations from evidence of causation, and give  
+  identifiers for the papers used.                                              
+
+● Opus 5.5's safeguards stopped the response above · continuing once 
+  with that noted
+
+● Opus 5.5's safeguards flagged this session. You may be seeing this for the first time: Opus 5.5 is more capable and has stronger safeguards as a result, which can sometimes flag biology-research-adjacent work. We're improving these safeguards to reduce the amount of incorrectly flagged messages. Opus 5 is answering instead, or you can edit and retry with Opus 5.5. Send feedback with /feedback or learn more: https://support.claude.com/en/articles/8106465
+
+  Details: `[bio]`
+  ⎿  Tip: You can configure model switch behavior in /config
+
+● Skill(literature-evidence)
+  ⎿  Successfully loaded skill
+
+● I'll load the Europe PMC tools and run the searches.
+
+  Called europepmc (ctrl+o to expand)
+
+● Good hits. Let me run two more targeted searches — one for
+  persistence-vs-response associations in patients, one for
+  interventional/mechanistic work on persistence.
+
+  Called europepmc (ctrl+o to expand)
+
+● The second query drifted toward checkpoint-blockade and TCR-discovery work.
+  Revising once toward controlled transfer experiments:
+
+  Called europepmc (ctrl+o to expand)
+
+● Now pulling full abstracts for the records I intend to rely on.
+
+  Called europepmc 8 times (ctrl+o to expand)
+
+● 1. Search log
+
+  #: 1
+  Query: ("TCR clonotype" OR "T cell receptor clonotype" OR "TCR repertoire" OR 
+  "clonal tracking") AND ("adoptive cell transfer" OR "adoptive T cell 
+  therapy" OR "tumor infiltrating lymphocyte" OR TIL OR "CAR-T") AND 
+  persistence NOT PUB_TYPE:review
+  Hits: 588
+  Note: Main yield; 7 of 10 on-topic
+  ────────────────────────────────────────
+  #: 2
+  Query: ("clonotype" OR "clonal") AND persistence AND ("TCR-T" OR "TCR 
+  engineered" OR "neoantigen-specific T cells") AND (response OR "clinical  
+  benefit") NOT PUB_TYPE:review
+  Hits: 686
+  Note: Largely off-target — returned checkpoint-blockade repertoire monitoring
+  and TCR-discovery papers, not post-transfer clonotype tracking. Nothing from
+  it used.
+  ────────────────────────────────────────
+  #: 3
+  Query: Revised toward controlled experiments: ("adoptive transfer" OR 
+  "adoptively transferred") AND ("clonotype" OR "clonal") AND (engraftment  OR 
+  persistence) AND (mouse OR murine OR knockout OR CRISPR) AND  ("stem-like" OR
+   TCF7 OR memory) NOT PUB_TYPE:review
+  Hits: 1730
+  Note: Mostly basic T-cell differentiation immunology; one relevant
+  interventional ACT study
+
+  I revised once, after query 2 drifted. Full abstracts were retrieved via
+  get_article for all eight papers below.
+
+  2. Evidence table
+
+  Identifier: PMID 41267983 (PMC12626815)
+  Year: 2025
+  Type: Primary
+  Design as stated in abstract: Longitudinal single-patient case study;
+  metastatic prostate cancer; serial TIL infusions + anti-PD-1; TCR sequencing
+  of blood and tumour over 5 years
+  Key finding: "TIL-derived clonotypes exhibited sustained persistence in blood,
+
+  with notable clonal expansions correlating with reduced repertoire diversity,
+   increased clonality, and observed clinical response"; clonotype stability up
+   to 5 years
+  Association vs causal: Association (n=1, uncontrolled)
+  ────────────────────────────────────────
+  Identifier: PMID 42575986 (PMC13577893)
+  Year: 2026
+  Type: Primary
+  Design as stated in abstract: 38 patients with non-Hodgkin lymphoma, anti-CD19
+
+  CART19 followed up to 10 years (NCT02030834)
+  Key finding: TCR sequencing "demonstrated oligoclonal persistence at 9.3
+  years,
+  with a dominant clone (70% of CART19 cells) already detectable at low
+  frequency (<0.1%) at day 14"
+  Association vs causal: Association / descriptive — the trial is tagged Phase
+  II
+  RCT in metadata, but the persistence analysis as described is longitudinal
+  observation, not a randomised comparison of persistence
+  ────────────────────────────────────────
+  Identifier: PMID 41486415 (PMC13292159)
+  Year: 2026
+  Type: Primary
+  Design as stated in abstract: Investigator-initiated trial, autologous TIL
+  (LM-103), 4 patients with acral melanoma; scRNA + TCR-seq of product, tumour,
+   serial blood
+  Key finding: In the complete responder "a dominant clone originating from the
+  TEX_int population persisted systemically by differentiating into a
+  progenitor-like (TEX_prog) state"
+  Association vs causal: Association. The abstract's own wording — durable
+  response "mechanistically linked" to persistence — is an inference from
+  correlated single-cell data in 4 patients, not an intervention; I do not
+  treat it as causal
+  ────────────────────────────────────────
+  Identifier: PMID 42618927 (PMC13488010)
+  Year: 2026
+  Type: Primary
+  Design as stated in abstract: Phase I IIT, 12 patients (melanoma, cervical,
+  lung, head/neck), NCT05366478; TCR-seq for in vivo TIL persistence; plus
+  CRISPR/Cas9 knockout experiments
+  Key finding: (a) "Infused TIL persisted in peripheral blood"; "TCR sequencing
+  revealed dynamic clonal remodeling in responders"; ASS1 and CEP20 "negatively
+   associated with therapeutic efficacy". (b) "CRISPR/Cas9-mediated knockout of
+   ASS1 or CEP20 enhanced TIL memory phenotypes, cytokine production, and tumor
+   cytotoxicity both in vitro and in vivo"
+  Association vs causal: Both, separately: (a) association in patients; (b)
+  causal for those two genes' effect on TIL memory phenotype and cytotoxicity —
+   note this is causal about TIL function, not demonstrated as causal about
+  clonotype persistence driving clinical response
+  ────────────────────────────────────────
+  Identifier: PMID 42526429 (PMC13425943)
+  Year: 2026
+  Type: Primary
+  Design as stated in abstract: Integrated immunophenotypic + spatial
+  transcriptomic profiling of TIL products and matched tumours from patients on
+   early-phase trials; advanced melanoma (sample size not stated in abstract)
+  Key finding: Responders had products enriched for CD8+, stem-like memory and
+  LAG-3+ CD8+ T cells "together with enhanced peripheral TIL persistence";
+  infused LAG-3+ TIL abundance "correlated with tumor reactivity and prolonged
+  progression-free survival"
+  Association vs causal: Association
+  ────────────────────────────────────────
+  Identifier: PMID 42189877 (PMC13530986)
+  Year: 2026
+  Type: Primary
+  Design as stated in abstract: First-in-human Phase I, 18 patients, recurrent
+  ovarian cancer; engineered mbIL7 TIL + anti-PD-1; exploratory Morisita
+  overlap index (MOI) between infused TILs and circulating T cells
+  Key finding: MOI "a significant predictor of treatment response, achieving an
+  area under the curve of 0.79"
+  Association vs causal: Association (exploratory, single arm)
+  ────────────────────────────────────────
+  Identifier: PMID 42570949 (PMC13452821)
+  Year: 2026
+  Type: Primary
+  Design as stated in abstract: Controlled mouse experiment, MC38-OVA model;
+  OT-I
+  TCR-transgenic CD8+ T cells ± LNP-mRNA encoding OVA
+  Key finding: "Transferred TCRtg T cells expanded only following mRNA
+  immunotherapy"; combination significantly improved survival vs monotherapies;
+   transferred cells showed memory-precursor/effector-memory phenotype
+  Association vs causal: Causal for the intervention → expansion/persistence
+  link
+  (monoclonal TCRtg cells, not clonotype repertoire tracking)
+  ────────────────────────────────────────
+  Identifier: PMID 40753920 (PMC12399210)
+  Year: 2025
+  Type: Primary
+  Design as stated in abstract: Controlled comparison of PD-1-edited vs
+  non-edited HCC TIL-derived T cells; CRISPR/Cas9 PDCD1; TCR-seq, RNA-seq,
+  humanised PDX models
+  Key finding: PD-1-edited T cells "retained a higher level of homology with the
+
+  whole and tumor-specific TCR clonotypes of primary HCC TILs" and showed
+  superior anti-tumour response in PDX
+  Association vs causal: Causal for editing → clonotype-composition retention
+  and
+  tumour control
+
+  3. Synthesis
+
+  Observed associations (patients). Every human study retrieved that links
+  clonotype persistence to outcome is correlational. Persistence of infused
+  clonotypes has been documented over years: to 5 years in a single
+  prostate-cancer patient after serial TIL plus pembrolizumab (PMID 41267983),
+  and oligoclonally to 9.3 years after CD19 CAR T in lymphoma, where the
+  dominant late clone was already present below 0.1% at day 14 (PMID 42575986).
+  Where outcome is brought in, the direction is consistent — clonal expansion
+  and reduced diversity tracked with clinical response in that case study (PMID
+  41267983); enhanced peripheral TIL persistence accompanied response in
+  advanced melanoma (PMID 42526429); the persisting dominant clone was seen in
+  the complete responder in acral melanoma (PMID 41486415); clonal remodelling
+  was seen in responders in a 12-patient phase I (PMID 42618927); and repertoire
+  overlap between product and blood predicted response with AUC 0.79 in
+  recurrent ovarian cancer (PMID 42189877). None of these designs can separate
+  persistence-as-cause from persistence-as-consequence of tumour control, and
+  cohorts are small (n=1 to 38).
+
+  Causal / mechanistic evidence. The interventional work retrieved manipulates
+  determinants of T-cell fitness, not clonotype persistence as such. In MC38-OVA
+  mice, adjunctive LNP-mRNA antigen was required for transferred TCR-transgenic
+  T cells to expand at all, with improved survival over monotherapy (PMID
+  42570949) — causal for antigen-driven expansion and persistence of transferred
+  cells, but using a monoclonal population, so it says nothing about
+  repertoire-level clonotype dynamics. PDCD1 knockout caused edited TIL to
+  retain greater clonotypic homology with the parent tumour repertoire and to
+  control PDX tumours better (PMID 40753920). ASS1 or CEP20 knockout caused
+  improved TIL memory phenotype, cytokine production and cytotoxicity in vitro
+  and in vivo (PMID 42618927) — and those two genes were identified from a
+  responder/non-responder association in the same trial, which is a useful
+  example of an association followed up experimentally, though the experiment
+  tested function rather than the persistence-to-response link itself.
+
+  The gap. Across these records, no retrieved study experimentally manipulates
+  clonotype persistence in patients and measures the effect on response. The
+  association is reproduced across tumour types and platforms; the causal claim
+  remains untested in the human setting by this evidence.
+
+  4. Limits
+
+  - Abstract-only basis. Full text was not retrieved for any record. Sample
+    sizes, statistics, persistence thresholds, sequencing depth and follow-up
+    definitions beyond what I quoted are not verifiable here. Notably: PMID
+    42526429 does not state its cohort size in the abstract, and PMID 42575986's
+    abstract does not say whether the 10-year persistence analysis was
+    pre-specified in the registered trial — full text would need checking.
+  - Not assessed but potentially relevant: PMID 42503644 (persistent
+    HPV-specific TCRs in HNSCC metastasis) and PMID 42577549 (5-year TCR
+    repertoire case report, anti-PD-1 + surgery) track clonotype persistence but
+    not after adoptive transfer, so they fall outside the question. PMID
+    41943833 and PMID 41719158 concern clonotype selection for product
+    manufacture, not post-infusion persistence.
+  - Search gaps. Query 1 returned 588 hits and I inspected 10 in relevance
+    order; landmark earlier TIL and CAR-T clonal-tracking studies may sit
+    outside that window. The retrieved set skews to 2025–2026 and to TIL
+    therapy; CAR-T is represented by one paper. A query targeting an
+    intervention that specifically boosts persistence in a randomised human
+    comparison (e.g. IL-2 dosing, lymphodepletion intensity, or
+    cytokine-armoured products) would be the way to test whether truly causal
+    human evidence exists — I did not run it.
+  - No result here should be read as evidence of absence; the two revised
+    queries returned high hit counts that I sampled, not exhausted.
+
+✻ Sautéed for 1m 58s · done 12:49 AM
+
+※ recap: Goal was to survey primary literature on TCR clonotype persistence after adoptive T-cell therapy, separating associations from causation. That review is complete with eight cited papers. Next action is yours: tell me if you want deeper searching or a written-up version. (disable recaps in /config)

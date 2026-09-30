@@ -1,0 +1,75 @@
+{
+  "source": "2026-09-30-005539-which-skills-are-available-in-this-project.txt (Claude Code v2.1.285, answered by Opus 5 after a safeguard flag on Opus 5.5)",
+  "citations": [
+    {
+      "identifier": "41267983",
+      "pmcid": "PMC12626815",
+      "label": "primary",
+      "quotes": [
+        "TIL-derived clonotypes exhibited sustained persistence in blood, with notable clonal expansions correlating with reduced repertoire diversity, increased clonality, and observed clinical response"
+      ]
+    },
+    {
+      "identifier": "42575986",
+      "pmcid": "PMC13577893",
+      "label": "primary",
+      "quotes": [
+        "demonstrated oligoclonal persistence at 9.3 years, with a dominant clone (70% of CART19 cells) already detectable at low frequency (<0.1%) at day 14"
+      ]
+    },
+    {
+      "identifier": "41486415",
+      "pmcid": "PMC13292159",
+      "label": "primary",
+      "quotes": [
+        "a dominant clone originating from the TEX_int population persisted systemically by differentiating into a progenitor-like (TEX_prog) state",
+        "mechanistically linked"
+      ]
+    },
+    {
+      "identifier": "42618927",
+      "pmcid": "PMC13488010",
+      "label": "primary",
+      "quotes": [
+        "Infused TIL persisted in peripheral blood",
+        "TCR sequencing revealed dynamic clonal remodeling in responders",
+        "negatively associated with therapeutic efficacy",
+        "CRISPR/Cas9-mediated knockout of ASS1 or CEP20 enhanced TIL memory phenotypes, cytokine production, and tumor cytotoxicity both in vitro and in vivo"
+      ]
+    },
+    {
+      "identifier": "42526429",
+      "pmcid": "PMC13425943",
+      "label": "primary",
+      "quotes": [
+        "together with enhanced peripheral TIL persistence",
+        "correlated with tumor reactivity and prolonged progression-free survival"
+      ]
+    },
+    {
+      "identifier": "42189877",
+      "pmcid": "PMC13530986",
+      "label": "primary",
+      "quotes": [
+        "a significant predictor of treatment response, achieving an area under the curve of 0.79"
+      ]
+    },
+    {
+      "identifier": "42570949",
+      "pmcid": "PMC13452821",
+      "label": "primary",
+      "quotes": [
+        "Transferred TCRtg T cells expanded only following mRNA immunotherapy"
+      ]
+    },
+    {
+      "identifier": "40753920",
+      "pmcid": "PMC12399210",
+      "label": "primary",
+      "quotes": [
+        "retained a higher level of homology with the whole and tumor-specific TCR clonotypes of primary HCC TILs"
+      ]
+    }
+  ],
+  "mentioned_only": ["42503644", "42577549", "41943833", "41719158"]
+}
