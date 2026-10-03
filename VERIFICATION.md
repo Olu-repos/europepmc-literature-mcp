@@ -15,8 +15,8 @@ someone runs it and pastes the evidence below.
 | 8 | Claude Code: `claude mcp add`, server connected and tools usable | local Windows PC, 2026-09-30 | **PASS** (local scope; tools called 11× successfully) | `2026-09-30-005539-…project.txt` |
 | 9 | Project skill picked up by Claude Code | local Windows PC, 2026-09-30 | **PASS** (listed, then loaded automatically) | `2026-09-30-005539-…project.txt` |
 | 10 | Demonstration question, scored in `examples/demo-evaluation.md` | local Windows PC, 2026-09-30 | **RUN & SCORED** (answered by Opus 5 after Opus 5.5 safeguard flag) | `2026-09-30-005539-…project.txt` |
-| 11 | Demo citations checked against live Europe PMC abstracts (`scripts/check_citations.py`) | local Windows PC, 2026-09-30 | **PASS** (0 problems; 8/8 resolve, 13/13 quotes found) | `verification/citations-latest.md` |
-| 12 | Skill comparison: same question without the skill (`examples/skill-comparison.md`) | local Windows PC, 2026-09-30 | **DONE**; run B citations: 22/22 identifiers correct, 1 misquote | `2026-09-30-095644-…-lite.txt`, `verification/citations-latest.md` |
+| 11 | Demo citations checked against live Europe PMC abstracts (`scripts/check_citations.py`) | local Windows PC, 2026-09-30 | **PASS** (0 problems; 8/8 resolve, 13/13 quotes found) | `verification/citations-20260930-012332.md` |
+| 12 | Skill comparison: same question without the skill (`examples/skill-comparison.md`) | local Windows PC, 2026-09-30 | **DONE**; run B citations: 22/22 identifiers correct, 1 misquote | `2026-09-30-095644-…-lite.txt`, `verification/citations-20260930-123035.md` |
 
 Checks 2–6 are automated by `scripts/verify_local.py`; 11 and 12's citations by `scripts/check_citations.py`; 7–10 and 12 are manual.
 
@@ -106,7 +106,7 @@ protocol level, because a tool error is a normal result with `is_error: true`, n
 ### 11. Citation check: PASS (2026-09-30 01:23 BST)
 
 Command: `uv run python scripts/check_citations.py` (reads `examples/demo-citations.json`).
-Output: `verification/citations-latest.md`. **Problems found: 0.**
+Output: `verification/citations-20260930-012332.md`. **Problems found: 0.**
 
 - All 8 cited PMIDs resolve to Europe PMC records, and all 8 PMCIDs given in the answer match.
 - All 8 were labelled "primary"; none is a review or preprint in Europe PMC's metadata.
@@ -127,7 +127,7 @@ cohort sizes (n=4, 12, 18, 38) and study-design summaries. Those would need a ma
 - With the skill, Claude looked up the full record of all 8 papers it relied on (11 tool calls).
   Without it, Claude made 6 tool calls and cited about 22 papers, mostly from truncated search abstracts.
   The run without the skill reasoned better about reverse causation.
-- Citation check for run B (12:30 BST, `examples/demo-citations-noskill.json`): **1 problem.**
+- Citation check for run B (12:30 BST, `examples/demo-citations-noskill.json`, output `verification/citations-20260930-123035.md`): **1 problem.**
   All 22 PMIDs resolve; every PMCID, DOI, first author and year matches. There is one misquote: "suggested",
   attributed to PMID 31845905, is not in the abstract. A manual check is also advised for the NOSIP
   claim (PMID 42440569): the answer says "tumour control", but the title refers to chronic infection.
