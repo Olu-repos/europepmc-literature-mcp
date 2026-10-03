@@ -1,5 +1,5 @@
 {
-  "source": "2026-09-30-095644-which-skills-are-available-in-this-project-lite.txt (skill removed; Claude Code v2.1.285; answered by Opus 5 after a safeguard flag on Opus 5.5)",
+  "source": "examples/transcripts/demo-without-skill.txt (skill removed; Claude Code v2.1.285; answered by Opus 5 after a safeguard flag on Opus 5.5)",
   "note": "Label 'primary' is applied to every paper the answer relied on or discussed as research, including those it called adjacent. The quotes are the short words the answer attributed to authors.",
   "citations": [
     {

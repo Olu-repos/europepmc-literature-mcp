@@ -2,7 +2,7 @@
 
 | | Run A: with skill | Run B: without skill |
 |---|---|---|
-| Transcript | `2026-09-30-005539-which-skills-are-available-in-this-project.txt` | `2026-09-30-095644-which-skills-are-available-in-this-project-lite.txt` |
+| Transcript | `transcripts/demo-with-skill.txt` | `transcripts/demo-without-skill.txt` |
 | Date / time | 2026-09-30, 00:49 | 2026-09-30, 09:56 |
 | Claude Code | v2.1.285 | v2.1.285 |
 | Model that answered | Opus 5 (Opus 5.5 safeguard flag `[bio]`) | Opus 5 (Opus 5.5 safeguard flag `[bio]` again) |

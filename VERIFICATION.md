@@ -1,7 +1,7 @@
 # Verification status
 
-Only checks with recorded results are marked done. Everything else stays **PENDING** until
-someone runs it and pastes the evidence below.
+All 12 checks have been run. Each row gives where and when it ran and the file that holds the evidence;
+the sections below record the details.
 
 | # | Check | Where it runs | Status | Evidence |
 |---|---|---|---|---|
@@ -12,11 +12,11 @@ someone runs it and pastes the evidence below.
 | 5 | Live Europe PMC API: search + get_article | local Windows PC, 2026-09-29 | **PASS** | `verification/results-20260929-171803.md` |
 | 6 | Live Europe PMC through the MCP server | local Windows PC, 2026-09-29 | **PASS** | `verification/results-20260929-171803.md` |
 | 7 | MCP Inspector (`uv run mcp dev server.py`) | local Windows PC, 2026-09-30 | **PASS** (5/5; the limit is enforced by the Inspector from the schema) | `verification/inspector/*.png` |
-| 8 | Claude Code: `claude mcp add`, server connected and tools usable | local Windows PC, 2026-09-30 | **PASS** (local scope; tools called 11× successfully) | `2026-09-30-005539-…project.txt` |
-| 9 | Project skill picked up by Claude Code | local Windows PC, 2026-09-30 | **PASS** (listed, then loaded automatically) | `2026-09-30-005539-…project.txt` |
-| 10 | Demonstration question, scored in `examples/demo-evaluation.md` | local Windows PC, 2026-09-30 | **RUN & SCORED** (answered by Opus 5 after Opus 5.5 safeguard flag) | `2026-09-30-005539-…project.txt` |
+| 8 | Claude Code: `claude mcp add`, server connected and tools usable | local Windows PC, 2026-09-30 | **PASS** (local scope; tools called 11× successfully) | `examples/transcripts/demo-with-skill.txt` |
+| 9 | Project skill picked up by Claude Code | local Windows PC, 2026-09-30 | **PASS** (listed, then loaded automatically) | `examples/transcripts/demo-with-skill.txt` |
+| 10 | Demonstration question, scored in `examples/demo-evaluation.md` | local Windows PC, 2026-09-30 | **RUN & SCORED** (answered by Opus 5 after Opus 5.5 safeguard flag) | `examples/transcripts/demo-with-skill.txt` |
 | 11 | Demo citations checked against live Europe PMC abstracts (`scripts/check_citations.py`) | local Windows PC, 2026-09-30 | **PASS** (0 problems; 8/8 resolve, 13/13 quotes found) | `verification/citations-20260930-012332.md` |
-| 12 | Skill comparison: same question without the skill (`examples/skill-comparison.md`) | local Windows PC, 2026-09-30 | **DONE**; run B citations: 22/22 identifiers correct, 1 misquote | `2026-09-30-095644-…-lite.txt`, `verification/citations-20260930-123035.md` |
+| 12 | Skill comparison: same question without the skill (`examples/skill-comparison.md`) | local Windows PC, 2026-09-30 | **DONE**; run B citations: 22/22 identifiers correct, 1 misquote | `examples/transcripts/demo-without-skill.txt`, `verification/citations-20260930-123035.md` |
 
 Checks 2–6 are automated by `scripts/verify_local.py`; 11 and 12's citations by `scripts/check_citations.py`; 7–10 and 12 are manual.
 
@@ -97,7 +97,7 @@ protocol level, because a tool error is a normal result with `is_error: true`, n
 
 ### 10. Demonstration: RUN & SCORED (2026-09-30)
 
-- Transcript: `2026-09-30-005539-which-skills-are-available-in-this-project.txt`
+- Transcript: `examples/transcripts/demo-with-skill.txt`
 - Scoring: `examples/demo-evaluation.md`. Tool selection, association vs causation, and admitting
   the limits of abstracts all scored well; two causal labels are marked for checking.
 - Model: **Opus 5.5's safeguards flagged the question (`[bio]`)**, and Opus 5 produced the answer

@@ -5,12 +5,11 @@ A narrow, **read-only** [MCP](https://modelcontextprotocol.io) server that lets 
 official MCP Python SDK, **pinned to `mcp[cli]==2.2.0`** (`MCPServer` + `@mcp.tool()`), plus a Claude Code project skill for
 evidence-careful literature answers, aimed at T-cell / cell-therapy research questions.
 
-> **Verification status (see [`VERIFICATION.md`](VERIFICATION.md)):** unit tests, in-memory MCP tests,
-> stdio launch and live Europe PMC checks **pass** on Windows with `mcp==2.2.0`. The Claude Code connection
-> and project skill **pass**. The demonstration has been run and scored, and all its citations were verified
-> against live Europe PMC (0 problems). A comparison run without the skill is in
-> `examples/skill-comparison.md`. The MCP Inspector walkthrough passed (screenshots in `verification/inspector/`).
-> Nothing is pending.
+> **Verified** ([`VERIFICATION.md`](VERIFICATION.md) has every check with its date and evidence): unit and
+> in-memory MCP tests, stdio launch, live Europe PMC calls, the MCP Inspector walkthrough
+> (screenshots in `verification/inspector/`), the Claude Code connection and project skill, and a scored
+> demonstration whose 8 citations all checked out against live Europe PMC abstracts. A run of the same
+> question without the skill is compared in [`examples/skill-comparison.md`](examples/skill-comparison.md).
 
 **Division of labour:** the server retrieves and structures Europe PMC data; Claude does the
 interpretation. The tools never summarise findings, rank evidence or draw conclusions, so an
@@ -48,29 +47,28 @@ tests/
 scripts/verify_local.py         Runs all automated checks and writes verification/latest.md
 scripts/live_check.py           Quick manual look at live results through the server
 scripts/check_citations.py      Checks a demo answer's PMIDs, labels and quotes against live abstracts
-VERIFICATION.md                 What has been verified, with evidence; everything else PENDING
+VERIFICATION.md                 Every check, with date, result and evidence
 examples/questions.md           Example questions, including the main demonstration
 examples/demo-evaluation.md     How Claude used the tools in the recorded demo run
 examples/demo-citations.json    Citations and quotes from that run, input to check_citations.py
 examples/skill-comparison.md    Same question with vs without the skill, side by side
 examples/demo-citations-noskill.json  Citations from the run without the skill
+examples/transcripts/            Claude Code transcripts of both demo runs (with and without the skill)
+verification/                   Check reports, citation-check results and Inspector screenshots
 .claude/skills/literature-evidence/SKILL.md   Project skill for Claude Code
 pyproject.toml
 ```
 
-## Setup (your machine)
+## Setup
 
 Requires Python ≥3.10 and [uv](https://docs.astral.sh/uv/). Node.js is needed only for the MCP Inspector.
 The MCP SDK source is **not** included in this repository; `uv sync` installs the pinned release.
 
 ```powershell
 cd C:\path\to\mcp-server
-uv sync                     # mcp[cli]==2.2.0, httpx, pydantic + dev group (pytest, anyio); writes uv.lock
+uv sync                     # installs the locked versions from uv.lock: mcp[cli]==2.2.0, httpx, pydantic, pytest, anyio
 uv run python -c "import importlib.metadata as m; print(m.version('mcp'))"    # expect 2.2.0
 ```
-
-Commit the generated `uv.lock` so the full dependency set is pinned too (it could not be generated
-in the build environment because PyPI was unreachable there).
 
 ## 1. Run all automated checks
 
@@ -81,8 +79,7 @@ uv run python scripts/verify_local.py --offline  # no network
 
 It runs, in order: environment/pin check → unit tests → in-memory MCP tests → stdio launch →
 live Europe PMC API → live Europe PMC through the MCP server, and writes
-`verification/results-<timestamp>.md` plus `verification/latest.md`. Copy the summary into
-[`VERIFICATION.md`](VERIFICATION.md) and change those rows from PENDING.
+`verification/results-<timestamp>.md` plus `verification/latest.md`.
 
 ### Individual commands
 
@@ -116,7 +113,7 @@ In the Inspector: **Connect** → **Tools** → **List Tools**, then call:
 - `get_article` with `identifier = hello` (should return a readable tool error)
 - `search_literature` with `max_results = 50` (should be rejected by the schema)
 
-Tick the Inspector checklist in `VERIFICATION.md`.
+The recorded walkthrough, with screenshots, is check 7 in [`VERIFICATION.md`](VERIFICATION.md).
 
 ## 3. Connect to Claude Code (manual)
 
@@ -146,8 +143,7 @@ can't find `uv`, use its absolute path (`where uv` on Windows).
 ## 4. The project skill
 
 `.claude/skills/literature-evidence/SKILL.md` is loaded by Claude Code automatically when you work
-in this folder. (If you received it as `project-skill/literature-evidence/SKILL.md`, move that folder
-into `.claude/skills/` first: `mkdir .claude\skills` then move `project-skill\literature-evidence` there.) It tells Claude to:
+in this folder. It tells Claude to:
 
 1. search, revising the query if needed;
 2. inspect each relied-on record with `get_article` instead of trusting titles or truncated abstracts;
@@ -165,7 +161,8 @@ In Claude Code, ask:
 
 > Find primary studies on TCR clonotype persistence after adoptive T-cell therapy. Separate observed associations from evidence of causation, and give identifiers for the papers used.
 
-Record the result in [`examples/demo-evaluation.md`](examples/demo-evaluation.md):
+The recorded run ([transcript](examples/transcripts/demo-with-skill.txt)) is scored in
+[`examples/demo-evaluation.md`](examples/demo-evaluation.md) on three criteria:
 
 - **Tool selection:** did Claude call `search_literature`, exclude reviews, and call `get_article` on the papers it relied on?
 - **Citation accuracy:** does every cited identifier appear in the tool output, and does the abstract support the claim attached to it?
@@ -177,7 +174,8 @@ Then check the citations in the answer against live Europe PMC abstracts:
 uv run python scripts/check_citations.py      # reads examples/demo-citations.json
 ```
 
-Running the question once with the skill and once without it shows what the skill contributes.
+The same question asked without the skill ([transcript](examples/transcripts/demo-without-skill.txt)) is compared
+with the skilled run in [`examples/skill-comparison.md`](examples/skill-comparison.md).
 
 More prompts are in [`examples/questions.md`](examples/questions.md).
 

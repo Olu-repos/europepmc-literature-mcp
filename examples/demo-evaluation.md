@@ -1,7 +1,6 @@
 # Demonstration record
 
-Transcript: `2026-09-30-005539-which-skills-are-available-in-this-project.txt` (a `/export` from Claude Code,
-kept in the project root). The export collapses tool inputs and outputs ("ctrl+o to expand"), so
+Transcript: [`transcripts/demo-with-skill.txt`](transcripts/demo-with-skill.txt), a `/export` from Claude Code. The export collapses tool inputs and outputs ("ctrl+o to expand"), so
 the transcript alone can't show exactly what each tool returned. Citation accuracy is therefore
 checked separately against live Europe PMC records with `scripts/check_citations.py` (section 2).
 
@@ -16,7 +15,7 @@ checked separately against live Europe PMC records with `scripts/check_citations
 | Model | Opus 5 (switched automatically after a safeguard flag on Opus 5.5) |
 | Project skill active? (`literature-evidence`) | **yes**: transcript shows `Skill(literature-evidence) · Successfully loaded skill` |
 | MCP server | `europepmc`, local scope (`claude mcp add`), launched with `uv run --directory … mcp run …/server.py` |
-| Transcript file | `2026-09-30-005539-which-skills-are-available-in-this-project.txt` |
+| Transcript file | `transcripts/demo-with-skill.txt` |
 | Duration | 1 min 58 s |
 
 ## 1. Tool selection
@@ -33,7 +32,7 @@ checked separately against live Europe PMC records with `scripts/check_citations
 ## 2. Citation accuracy
 
 Checked with `uv run python scripts/check_citations.py` on 2026-09-30 01:23 BST against live Europe PMC
-(`verification/citations-latest.md`). **Problems found: 0.**
+(`verification/citations-20260930-012332.md`). **Problems found: 0.**
 
 | Identifier cited | Resolves? | PMCID matches? | Quoted claims in abstract? | Labelled correctly? (metadata types) |
 |---|---|---|---|---|
