@@ -64,6 +64,8 @@ Opus 5.5 **reproduced** on the second run: it happened twice in two attempts.
   and tumour control" (PMID 42440569), but the paper's title is "NOSIP overexpression promotes long-term persistence
   of CD8+ T cells **during chronic infection**". The tumour-control part may not be supported.
   This is the kind of error that reading the full record with `get_article` is meant to catch.
+  **Status: pending** check M3 (`uv run python scripts/manual_checks.py`, input `examples/manual-checks.json`),
+  which prints the full abstract and whether it mentions tumours at all.
 - **Checkable surface:** only 5 quoted words could be checked in run B, against 13 phrases in run A.
   Most of run B's claims are paraphrases, which this check doesn't cover.
 

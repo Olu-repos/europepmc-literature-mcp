@@ -9,3 +9,6 @@ __pycache__/
 
 # Machine-specific MCP registration (the server is registered at local scope instead)
 .mcp.json
+
+# Files downloaded from Claude chats before being moved into place
+Claude outputs/

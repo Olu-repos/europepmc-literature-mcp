@@ -1,5 +1,8 @@
 # Europe PMC literature MCP server
 
+[![tests](https://github.com/Olu-repos/europepmc-literature-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/Olu-repos/europepmc-literature-mcp/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A narrow, **read-only** [MCP](https://modelcontextprotocol.io) server that lets Claude search
 [Europe PMC](https://europepmc.org) and inspect individual publication records. Built with the
 official MCP Python SDK, **pinned to `mcp[cli]==2.2.0`** (`MCPServer` + `@mcp.tool()`), plus a Claude Code project skill for
@@ -43,19 +46,25 @@ tests/
   conftest.py                   Mock Europe PMC via httpx.MockTransport (no network, no MCP import)
   test_europepmc.py             Unit tests: validation, identifiers, parsing, HTTP client on fixtures
   test_mcp_inmemory.py          MCP integration: SDK in-memory Client -> server (needs mcp==2.2.0)
+  test_check_citations.py       Quote, author and year matching used by check_citations.py
+  test_manual_checks.py         Helpers and input file for manual_checks.py
   fixtures/*.json               SYNTHETIC Europe PMC responses (fake PMIDs 990000xx, DOI prefix 10.5555)
 scripts/verify_local.py         Runs all automated checks and writes verification/latest.md
 scripts/live_check.py           Quick manual look at live results through the server
 scripts/check_citations.py      Checks a demo answer's PMIDs, labels and quotes against live abstracts
+scripts/manual_checks.py        Prints full abstracts + term hits for the open manual checks
 VERIFICATION.md                 Every check, with date, result and evidence
 examples/questions.md           Example questions, including the main demonstration
 examples/demo-evaluation.md     How Claude used the tools in the recorded demo run
 examples/demo-citations.json    Citations and quotes from that run, input to check_citations.py
 examples/skill-comparison.md    Same question with vs without the skill, side by side
 examples/demo-citations-noskill.json  Citations from the run without the skill
+examples/manual-checks.json     Open manual checks (M1–M5), input to manual_checks.py
 examples/transcripts/            Claude Code transcripts of both demo runs (with and without the skill)
 verification/                   Check reports, citation-check results and Inspector screenshots
 .claude/skills/literature-evidence/SKILL.md   Project skill for Claude Code
+.github/workflows/tests.yml     CI: uv sync --locked, then all tests (Ubuntu + Windows, Python 3.10 + 3.13)
+LICENSE                         MIT
 pyproject.toml
 ```
 
@@ -84,6 +93,7 @@ live Europe PMC API → live Europe PMC through the MCP server, and writes
 ### Individual commands
 
 ```powershell
+uv run pytest                                    # everything: 50 offline tests + 9 in-memory MCP tests
 uv run pytest tests/test_europepmc.py            # unit tests, offline fixtures, no MCP SDK needed
 uv run pytest tests/test_mcp_inmemory.py         # in-memory MCP tests (skipped if mcp!=2.2.0)
 $env:REQUIRE_MCP="1"; uv run pytest tests/test_mcp_inmemory.py; Remove-Item Env:REQUIRE_MCP   # fail instead of skip
@@ -174,6 +184,13 @@ Then check the citations in the answer against live Europe PMC abstracts:
 uv run python scripts/check_citations.py      # reads examples/demo-citations.json
 ```
 
+Open manual checks (causal labels the citation checker can't judge, and points the answer left out)
+are listed in `examples/manual-checks.json`. This prints each full abstract with term hits, for a person to read:
+
+```powershell
+uv run python scripts/manual_checks.py        # writes verification/manual-checks-latest.md
+```
+
 The same question asked without the skill ([transcript](examples/transcripts/demo-without-skill.txt)) is compared
 with the skilled run in [`examples/skill-comparison.md`](examples/skill-comparison.md).
 
@@ -186,3 +203,7 @@ More prompts are in [`examples/questions.md`](examples/questions.md).
 - **Why truncate abstracts in search:** it keeps a 20-result response small, and it pushes the model to call `get_article` before relying on a paper.
 - **Why no full text (yet):** abstract-only records keep version 1 small and honest. Every `get_article` response states that full text was not retrieved. A later version could add open-access full text via `/{PMCID}/fullTextXML`.
 - **Europe PMC terms:** it's a free public API with no key. Please keep request volumes modest.
+
+## License
+
+MIT, see [`LICENSE`](LICENSE).

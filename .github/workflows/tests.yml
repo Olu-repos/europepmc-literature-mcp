@@ -1,0 +1,33 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: pytest (Python ${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.13"]
+    env:
+      REQUIRE_MCP: "1"   # the in-memory MCP tests must run, not skip
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install locked dependencies (mcp[cli]==2.2.0 from uv.lock)
+        run: uv sync --locked
+      - name: Check the MCP SDK pin
+        run: uv run python -c "import importlib.metadata as m; v = m.version('mcp'); print('mcp', v); assert v == '2.2.0'"
+      - name: Offline tests (no network calls to Europe PMC)
+        run: uv run pytest -v

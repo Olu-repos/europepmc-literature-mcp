@@ -33,6 +33,10 @@ claim you make must be traceable to a record you actually retrieved.
    - *Causal / mechanistic evidence*: an intervention or controlled experiment that manipulates the
      variable (e.g. knockout, randomised comparison, controlled transfer experiment).
    - *Not determinable from abstract*: say so rather than guessing.
+
+   For every finding, also report what the abstract or record states about **co-treatments,
+   prior treatments, other independent predictors, and funding sources**. These are the confounders
+   and rival explanations a reader needs before treating an association as causal.
 6. **Cite with identifiers.** Every factual sentence about a paper ends with its identifier,
    e.g. `(PMID 12345678)`, or `(PMC1234567)`, `(DOI 10.xxxx/yyy)`, or `(PPR:PPR123456)` for preprints.
    Only cite identifiers that appear in tool output from this conversation. Never invent or

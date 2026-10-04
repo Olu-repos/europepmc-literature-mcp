@@ -61,11 +61,38 @@ Checked with `uv run python scripts/check_citations.py` on 2026-09-30 01:23 BST 
 | Oligoclonal CAR-T persistence at 9.3 years (42575986) | association / descriptive | Also flagged that the metadata "Phase II RCT" tag does not make the persistence analysis randomised: a good catch | ✓ |
 | Dominant persisting clone in complete responder (41486415) | association | Explicitly declined the abstract's own "mechanistically linked" wording as causal (n=4) | ✓ |
 | Clonal remodelling in responders (42618927a) vs ASS1/CEP20 knockout (42618927b) | association / causal, split | Correctly separated within one paper, and noted the causal part concerns TIL function, not persistence → response | ✓ |
-| LAG-3+ TIL and persistence with PFS (42526429) | association | | ✓ |
+| LAG-3+ TIL and persistence with PFS (42526429) | association | Label right, but the answer left out four things in the same abstract that weaken any causal reading (section 3a) | ◐ |
 | Overlap index predicts response, AUC 0.79 (42189877) | association | | ✓ |
-| mRNA antigen needed for transferred TCRtg expansion (42570949) | causal | Causal for expansion. Extending it to "persistence" goes slightly beyond the quoted sentence, which says "expanded"; check the abstract | ? |
-| PD-1 editing → retained clonotype homology (40753920) | causal | Edited vs non-edited is a controlled comparison, so reasonable; confirm the abstract describes a direct comparison | ? |
+| mRNA antigen needed for transferred TCRtg expansion (42570949) | causal | Causal for expansion. Extending it to "persistence" goes beyond the quoted sentence, which says "expanded". **Pending:** check M1 in `examples/manual-checks.json` tests whether the abstract mentions persistence at all | ? (pending M1) |
+| PD-1 editing → retained clonotype homology (40753920) | causal | Edited vs non-edited is a controlled comparison, so reasonable. **Pending:** check M2 confirms the abstract describes that direct comparison | ? (pending M2) |
 | Overall: "no retrieved study experimentally manipulates clonotype persistence in patients" | synthesis | Correctly scoped to "these records" rather than the literature as a whole | ✓ |
+
+## 3a. What the answer left out: PMID 42526429 (melanoma TIL)
+
+A manual re-read of this abstract (2026-10-02) found four points the answer did not mention. Points 1–3
+are in the abstract itself, so the abstract-only limit is not the excuse; point 4 comes from the
+record's funding statement (check M4 confirms where it appears). All four bear
+directly on the association-vs-causation question the user asked.
+
+| # | Stated in the record | Why it matters for causation | In the answer? |
+|---|---|---|---|
+| 1 | Patients were treated "with or without additional therapies" | Co-treatment is a confounder: response and persistence may both reflect the add-on therapy, not each other | no |
+| 2 | Prior immune checkpoint inhibitor exposure was associated with reduced CD8+ stem-like memory (TSCM) cells and co-stimulatory receptors, "suggesting impaired TIL fitness" | Treatment history affects the product and may affect persistence and response together: a common cause | no |
+| 3 | Tertiary lymphoid structures and antigen-presentation / immune programmes in the tumour were "independently associated with clinical benefit" | A rival explanation that sits in the tumour, not the infused clones | no |
+| 4 | Funded by Iovance Biotherapeutics (the TIL manufacturer) | Conflict of interest worth reporting next to the finding | no |
+
+The answer also left out the headline outcomes (durable ORR 36%, median PFS 8 months) and that the
+data were pooled from several early-phase trials. It did say the abstract gives no cohort size,
+which is correct.
+
+**Effect on the score:** the association label for 42526429 stays correct, but the answer presented
+"enhanced peripheral TIL persistence" in responders without the confounders and rival explanation
+the same abstract offers. That row is now ◐ (partial). Check M4 in `examples/manual-checks.json`
+re-confirms each quoted phrase against the live abstract and lists the funder from Europe PMC's
+grant metadata.
+
+**Not yet re-read:** PMID 41486415 (acral melanoma, n=4). Its fetch was rate-limited (HTTP 429);
+check M5 covers it.
 
 ## 4. Admitting the limits of an abstract
 
@@ -82,11 +109,13 @@ Checked with `uv run python scripts/check_citations.py` on 2026-09-30 01:23 BST 
 - **What worked:** Claude loaded the project skill by itself and followed its workflow: search, revise, `get_article` on every relied-on paper, classify, cite, state the limits. It kept patient associations apart from experimental causal evidence, even within one paper (42618927), and refused to treat an abstract's causal wording ("mechanistically linked") as causal evidence. Every factual sentence carries a PMID. It said openly where its search was weak (a TIL/2025–26 skew, only one CAR-T paper, 10 of 588 inspected).
 - **What failed:** Opus 5.5's safeguards flagged the demonstration question, which is ordinary T-cell literature research ("Details: `[bio]`"). The session switched automatically to Opus 5, which produced the answer, so this run does **not** show Opus 5.5 using the tools.
 - **Citations:** 8/8 PMIDs and PMCIDs correct, 13/13 quotes found verbatim in the abstracts, and no invented identifiers.
-- **Still worth a manual look:** two causal labels go slightly beyond the quoted text. 42570949's quote says the cells "expanded", but the answer also says "persistence". For 40753920, the title ("PD-1 attenuation enhances TIL-based adoptive cellular therapy in humanized-PDX model") supports a controlled comparison.
+- **Missed in an abstract it did read:** for 42526429 the answer left out co-therapies, the effect of prior checkpoint-inhibitor exposure, an independent tumour-side predictor, and industry funding (section 3a). Reading the full abstract is necessary, but the skill didn't ask Claude to report confounders, so it didn't.
+- **Open manual checks (pending until `scripts/manual_checks.py` output is recorded):** M1, whether 42570949's abstract supports "persistence" or only "expanded"; M2, whether 40753920 states a direct edited-vs-non-edited comparison (the title, "PD-1 attenuation enhances TIL-based adoptive cellular therapy in humanized-PDX model", suggests so); M5, a re-read of 41486415 for missed points. M3 (NOSIP, PMID 42440569) belongs to the run without the skill and is recorded in `skill-comparison.md`.
 - **Change to try next:**
   1. Skill: ask for the label "causal (for X, not for persistence → response)" to be written out every time. The answer did this in prose but not consistently in the table.
   2. Server: add an optional `sort` parameter (e.g. by date or citations), since relevance order biased the sample towards 2025–26 papers.
-  3. Export: record the tool calls themselves (expand them before `/export`, or use a verbose transcript) so citations can be checked against the tool output, not just against live records.
+  3. Skill (added 2026-10-02, not yet re-tested): "For each finding, list the co-treatments, prior treatments, other independent predictors and funding sources that the abstract states."
+  4. Export: record the tool calls themselves (expand them before `/export`, or use a verbose transcript) so citations can be checked against the tool output, not just against live records.
 
 ## Suggested comparison
 

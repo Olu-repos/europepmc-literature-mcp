@@ -1,0 +1,40 @@
+{
+  "note": "Open manual checks from examples/demo-evaluation.md and examples/skill-comparison.md. Run: uv run python scripts/manual_checks.py",
+  "checks": [
+    {
+      "id": "M1",
+      "identifier": "42570949",
+      "claim": "Run A (with skill): adjunctive LNP-mRNA antigen was 'causal for antigen-driven expansion and persistence of transferred cells'.",
+      "question": "Does the abstract support persistence, or only expansion?",
+      "terms": ["expanded only following mRNA immunotherapy", "persist", "memory", "survival"]
+    },
+    {
+      "id": "M2",
+      "identifier": "40753920",
+      "claim": "Run A: PDCD1 knockout caused edited TIL to retain greater clonotypic homology with the parent tumour repertoire and to control PDX tumours better.",
+      "question": "Does the abstract describe a direct edited vs non-edited comparison for both outcomes?",
+      "terms": ["retained a higher level of homology", "non-edited", "unedited", "compared", "PDX"]
+    },
+    {
+      "id": "M3",
+      "identifier": "42440569",
+      "claim": "Run B (without skill): NOSIP overexpression 'increases persistence and tumour control'.",
+      "question": "Does the abstract report tumour control, or only persistence during chronic infection?",
+      "terms": ["chronic infection", "tumor", "tumour", "cancer", "persistence"]
+    },
+    {
+      "id": "M4",
+      "identifier": "42526429",
+      "claim": "Run A: responders had LAG-3+ CD8+ products 'together with enhanced peripheral TIL persistence' (association). The answer did not mention co-therapies, prior checkpoint inhibitors, tertiary lymphoid structures or funding.",
+      "question": "Confirm the four missed points in section 3a appear in this record.",
+      "terms": ["with or without additional therapies", "suggesting impaired TIL fitness", "tertiary lymphoid", "independently associated with clinical benefit", "Iovance", "36%"]
+    },
+    {
+      "id": "M5",
+      "identifier": "41486415",
+      "claim": "Run A: a dominant clone persisted in the complete responder (association); the answer declined the abstract's 'mechanistically linked' wording.",
+      "question": "Re-read for confounders, co-treatments or rival explanations the answer left out (as found for 42526429).",
+      "terms": ["mechanistically linked", "complete response", "checkpoint", "with or without"]
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 # Verification status
 
-All 12 checks have been run. Each row gives where and when it ran and the file that holds the evidence;
-the sections below record the details.
+Checks 1–12 have been run. Checks 13–15 were added on 2026-10-02 and stay **PENDING** until their results are
+recorded here. Each row gives where and when it ran and the file that holds the evidence; the sections below record the details.
 
 | # | Check | Where it runs | Status | Evidence |
 |---|---|---|---|---|
-| 1 | Unit tests on offline fixtures (`tests/test_europepmc.py`, 42 tests) | Cloud workspace, 2026-09-29 | **PASS** | See "Recorded results" below |
+| 1 | Offline tests: `test_europepmc.py` (42), `test_check_citations.py` (5), `test_manual_checks.py` (3) | Cloud workspace, 2026-09-29; re-run 2026-10-02 | **PASS** (42/42 on 09-29; 50/50 on 10-02) | See "Recorded results" below |
 | 2 | Environment: pinned `mcp[cli]==2.2.0` installed via `uv sync` | local Windows PC, 2026-09-29 | **PASS** | `verification/results-20260929-171803.md` |
 | 3 | In-memory MCP tests (`tests/test_mcp_inmemory.py`) | local Windows PC, 2026-09-29 | **PASS** (9/9) | `verification/results-20260929-171803.md` |
 | 4 | Server starts over stdio and lists both tools | local Windows PC, 2026-09-29 | **PASS** | `verification/results-20260929-171803.md` |
@@ -17,8 +17,11 @@ the sections below record the details.
 | 10 | Demonstration question, scored in `examples/demo-evaluation.md` | local Windows PC, 2026-09-30 | **RUN & SCORED** (answered by Opus 5 after Opus 5.5 safeguard flag) | `examples/transcripts/demo-with-skill.txt` |
 | 11 | Demo citations checked against live Europe PMC abstracts (`scripts/check_citations.py`) | local Windows PC, 2026-09-30 | **PASS** (0 problems; 8/8 resolve, 13/13 quotes found) | `verification/citations-20260930-012332.md` |
 | 12 | Skill comparison: same question without the skill (`examples/skill-comparison.md`) | local Windows PC, 2026-09-30 | **DONE**; run B citations: 22/22 identifiers correct, 1 misquote | `examples/transcripts/demo-without-skill.txt`, `verification/citations-20260930-123035.md` |
+| 13 | All 59 tests on your machine (`uv run pytest`: 50 offline + 9 in-memory MCP) | local Windows PC | **PENDING** | not yet recorded |
+| 14 | GitHub Actions CI (`.github/workflows/tests.yml`, Ubuntu + Windows × Python 3.10 + 3.13) | GitHub | **PENDING** | not yet recorded (first run happens on push) |
+| 15 | Manual checks M1–M5 (`scripts/manual_checks.py`, `examples/manual-checks.json`) | local Windows PC | **PENDING** | not yet recorded; the cloud fetch was rate-limited (HTTP 429) on 2026-10-02 |
 
-Checks 2–6 are automated by `scripts/verify_local.py`; 11 and 12's citations by `scripts/check_citations.py`; 7–10 and 12 are manual.
+Checks 2–6 are automated by `scripts/verify_local.py` (its unit-test step now runs all 50 offline tests); 11 and 12's citations by `scripts/check_citations.py`; 13 by `uv run pytest`; 14 by GitHub Actions; 7–10, 12 and 15's verdicts are manual.
 
 ## Recorded results
 
@@ -34,6 +37,10 @@ Checks 2–6 are automated by `scripts/verify_local.py`; 11 and 12's citations b
   and the HTTP client's normal / no-results / failure (503, 429, 400, bad JSON, `errMsg`, timeout,
   connection error) paths, using synthetic Europe PMC JSON and `httpx.MockTransport`.
 - What this does **not** cover: anything involving the MCP SDK, the stdio transport, or the real Europe PMC API.
+
+**Re-run 2026-10-02 (cloud workspace):** `pytest -q -p no:cacheprovider` → `50 passed, 1 skipped`. The 50 are
+`test_europepmc.py` (42), `test_check_citations.py` (5, never run before this date) and the new
+`test_manual_checks.py` (3). The skip is again `test_mcp_inmemory.py` (mcp 1.27.0 in the workspace, not 2.2.0).
 
 ### 2–6. Automated checks: local Windows PC, 2026-09-29 17:18 BST
 
@@ -132,3 +139,36 @@ cohort sizes (n=4, 12, 18, 38) and study-design summaries. Those would need a ma
   attributed to PMID 31845905, is not in the abstract. A manual check is also advised for the NOSIP
   claim (PMID 42440569): the answer says "tumour control", but the title refers to chronic infection.
 - Full comparison: `examples/skill-comparison.md`.
+
+### 13. Full test suite on your machine: PENDING
+
+```powershell
+uv sync
+$env:REQUIRE_MCP="1"; uv run pytest; Remove-Item Env:REQUIRE_MCP
+```
+
+Expected: `59 passed` (50 offline + 9 in-memory MCP). Record the date and the summary line here.
+
+### 14. GitHub Actions CI: PENDING
+
+Runs on every push to `main` and on pull requests: `uv sync --locked`, a check that `mcp` is 2.2.0, then
+`uv run pytest` with `REQUIRE_MCP=1`, so the MCP tests fail rather than skip if the SDK is missing. No step calls
+Europe PMC. Record the first run's link and result here; the README badge shows the latest status.
+
+### 15. Manual checks M1–M5: PENDING
+
+```powershell
+uv run python scripts/manual_checks.py
+```
+
+The script prints each full abstract, which listed terms it contains and the funders in Europe PMC's grant
+metadata, and writes `verification/manual-checks-latest.md`. It gives no verdicts. A reader decides each one
+and records it in `examples/demo-evaluation.md` (M1, M2, M4, M5) or `examples/skill-comparison.md` (M3).
+
+| Check | PMID | Question | Verdict |
+|---|---|---|---|
+| M1 | 42570949 | Does the abstract support "persistence", or only "expanded"? | pending |
+| M2 | 40753920 | Does it state a direct edited vs non-edited comparison? | pending |
+| M3 | 42440569 | Does it report tumour control, or only persistence in chronic infection? | pending |
+| M4 | 42526429 | Confirm the four missed points (co-therapies, prior ICI, TLS, funding) | read manually on 2026-10-02 (see `demo-evaluation.md` §3a); script confirmation pending |
+| M5 | 41486415 | Re-read for missed confounders | pending (cloud fetch rate-limited) |

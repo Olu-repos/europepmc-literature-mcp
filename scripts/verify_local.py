@@ -6,7 +6,7 @@
 
 Checks
   1. environment        Python, platform, installed package versions; MCP SDK must equal the pin
-  2. unit_tests         tests/test_europepmc.py (offline fixtures, no MCP SDK needed)
+  2. unit_tests         all offline tests: test_europepmc, test_check_citations, test_manual_checks (no MCP SDK)
   3. mcp_inmemory       tests/test_mcp_inmemory.py via the SDK's in-memory Client (REQUIRE_MCP=1)
   4. mcp_stdio          launch server.py as a subprocess over stdio and list its tools
   5. live_api           real Europe PMC: search + get_article through europepmc.py
@@ -65,10 +65,13 @@ def version(pkg: str) -> str | None:
         return None
 
 
-def run_pytest(path: str, extra_env: dict[str, str] | None = None) -> tuple[int, str]:
+OFFLINE_TESTS = ("tests/test_europepmc.py", "tests/test_check_citations.py", "tests/test_manual_checks.py")
+
+
+def run_pytest(*paths: str, extra_env: dict[str, str] | None = None) -> tuple[int, str]:
     env = {**os.environ, **(extra_env or {})}
     proc = subprocess.run(
-        [sys.executable, "-m", "pytest", path, "-q", "-p", "no:cacheprovider"],
+        [sys.executable, "-m", "pytest", *paths, "-q", "-p", "no:cacheprovider"],
         cwd=ROOT, env=env, capture_output=True, text=True, timeout=300,
     )
     out = (proc.stdout + proc.stderr).strip().splitlines()
@@ -96,12 +99,12 @@ def check_environment(c: Check) -> bool:
 
 
 def check_unit_tests(c: Check) -> None:
-    code, tail = run_pytest("tests/test_europepmc.py")
+    code, tail = run_pytest(*OFFLINE_TESTS)
     (c.ok if code == 0 else c.fail)(tail)
 
 
 def check_mcp_inmemory(c: Check) -> None:
-    code, tail = run_pytest("tests/test_mcp_inmemory.py", {"REQUIRE_MCP": "1"})
+    code, tail = run_pytest("tests/test_mcp_inmemory.py", extra_env={"REQUIRE_MCP": "1"})
     (c.ok if code == 0 else c.fail)(tail)
 
 
