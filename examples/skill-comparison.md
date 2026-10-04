@@ -38,7 +38,7 @@ Opus 5.5 **reproduced** on the second run: it happened twice in two attempts.
 
 ## What the skill added (from this pair of runs)
 
-1. **Inspecting source records.** (Run B's one misquote and the possible NOSIP overstatement are what happens without this.) With the skill, Claude fetched the full record of every paper it
+1. **Inspecting source records.** (Run B's one misquote is what happens without this.) With the skill, Claude fetched the full record of every paper it
    relied on. Without it, it made 6 calls in total and cited about 22 papers, so most claims rest
    on search results, whose abstracts are cut off after 1,500 characters. That's the step the skill
    exists to enforce.
@@ -60,12 +60,12 @@ Opus 5.5 **reproduced** on the second run: it happened twice in two attempts.
 - **One misquote:** for PMID 31845905 (Nobles et al., JCI 2020) the answer puts "suggested" in quotation marks as the
   authors' own word; that word is not in the abstract. The point it makes may still be fair,
   but the quotation marks claim wording the source doesn't use. The skilled run had no misquotes.
-- **Worth a manual check (not flagged by the tool):** the answer says NOSIP overexpression "increases persistence
-  and tumour control" (PMID 42440569), but the paper's title is "NOSIP overexpression promotes long-term persistence
-  of CD8+ T cells **during chronic infection**". The tumour-control part may not be supported.
-  This is the kind of error that reading the full record with `get_article` is meant to catch.
-  **Status: pending** check M3 (`uv run python scripts/manual_checks.py`, input `examples/manual-checks.json`),
-  which prints the full abstract and whether it mentions tumours at all.
+- **NOSIP claim checked and supported (M3, 2026-10-04,
+  `verification/manual-checks-20261004-012123.md`):** the answer says NOSIP overexpression "increases persistence
+  and tumour control" (PMID 42440569). The title mentions only chronic infection, which is why I flagged it, but the abstract says:
+  "In a tumor model, NOSIP-overexpressing CD8+ T cells exhibited improved tumor control". **My suspicion was wrong; run B
+  was right.** This shows the reverse lesson too: a title alone is not enough to judge a claim, whether
+  you are the model or the evaluator.
 - **Checkable surface:** only 5 quoted words could be checked in run B, against 13 phrases in run A.
   Most of run B's claims are paraphrases, which this check doesn't cover.
 

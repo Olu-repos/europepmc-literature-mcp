@@ -59,7 +59,7 @@ examples/demo-evaluation.md     How Claude used the tools in the recorded demo r
 examples/demo-citations.json    Citations and quotes from that run, input to check_citations.py
 examples/skill-comparison.md    Same question with vs without the skill, side by side
 examples/demo-citations-noskill.json  Citations from the run without the skill
-examples/manual-checks.json     Open manual checks (M1–M5), input to manual_checks.py
+examples/manual-checks.json     Manual checks M1–M5 (input to manual_checks.py; verdicts in VERIFICATION.md)
 examples/transcripts/            Claude Code transcripts of both demo runs (with and without the skill)
 verification/                   Check reports, citation-check results and Inspector screenshots
 .claude/skills/literature-evidence/SKILL.md   Project skill for Claude Code
@@ -184,7 +184,7 @@ Then check the citations in the answer against live Europe PMC abstracts:
 uv run python scripts/check_citations.py      # reads examples/demo-citations.json
 ```
 
-Open manual checks (causal labels the citation checker can't judge, and points the answer left out)
+Manual checks (causal labels the citation checker can't judge, and points the answer left out)
 are listed in `examples/manual-checks.json`. This prints each full abstract with term hits, for a person to read:
 
 ```powershell

@@ -1,7 +1,6 @@
 # Verification status
 
-Checks 1–12 have been run. Checks 13–15 were added on 2026-10-02 and stay **PENDING** until their results are
-recorded here. Each row gives where and when it ran and the file that holds the evidence; the sections below record the details.
+Checks 1–12, 14 and 15 have been run. Check 13 stays **PENDING** until its output is recorded here. Each row gives where and when it ran and the file that holds the evidence; the sections below record the details.
 
 | # | Check | Where it runs | Status | Evidence |
 |---|---|---|---|---|
@@ -12,14 +11,14 @@ recorded here. Each row gives where and when it ran and the file that holds the 
 | 5 | Live Europe PMC API: search + get_article | local Windows PC, 2026-09-29 | **PASS** | `verification/results-20260929-171803.md` |
 | 6 | Live Europe PMC through the MCP server | local Windows PC, 2026-09-29 | **PASS** | `verification/results-20260929-171803.md` |
 | 7 | MCP Inspector (`uv run mcp dev server.py`) | local Windows PC, 2026-09-30 | **PASS** (5/5; the limit is enforced by the Inspector from the schema) | `verification/inspector/*.png` |
-| 8 | Claude Code: `claude mcp add`, server connected and tools usable | local Windows PC, 2026-09-30 | **PASS** (local scope; tools called 11× successfully) | `examples/transcripts/demo-with-skill.txt` |
+| 8 | Claude Code: `claude mcp add`, server connected and tools usable | local Windows PC, 2026-09-30 | **PASS** (local scope; `/mcp` shows connected, 2 tools; tools called 11× successfully) | `verification/claude-code-mcp.png`, `examples/transcripts/demo-with-skill.txt` |
 | 9 | Project skill picked up by Claude Code | local Windows PC, 2026-09-30 | **PASS** (listed, then loaded automatically) | `examples/transcripts/demo-with-skill.txt` |
 | 10 | Demonstration question, scored in `examples/demo-evaluation.md` | local Windows PC, 2026-09-30 | **RUN & SCORED** (answered by Opus 5 after Opus 5.5 safeguard flag) | `examples/transcripts/demo-with-skill.txt` |
 | 11 | Demo citations checked against live Europe PMC abstracts (`scripts/check_citations.py`) | local Windows PC, 2026-09-30 | **PASS** (0 problems; 8/8 resolve, 13/13 quotes found) | `verification/citations-20260930-012332.md` |
 | 12 | Skill comparison: same question without the skill (`examples/skill-comparison.md`) | local Windows PC, 2026-09-30 | **DONE**; run B citations: 22/22 identifiers correct, 1 misquote | `examples/transcripts/demo-without-skill.txt`, `verification/citations-20260930-123035.md` |
 | 13 | All 59 tests on your machine (`uv run pytest`: 50 offline + 9 in-memory MCP) | local Windows PC | **PENDING** | not yet recorded |
-| 14 | GitHub Actions CI (`.github/workflows/tests.yml`, Ubuntu + Windows × Python 3.10 + 3.13) | GitHub | **PENDING** | not yet recorded (first run happens on push) |
-| 15 | Manual checks M1–M5 (`scripts/manual_checks.py`, `examples/manual-checks.json`) | local Windows PC | **PENDING** | not yet recorded; the cloud fetch was rate-limited (HTTP 429) on 2026-10-02 |
+| 14 | GitHub Actions CI (`.github/workflows/tests.yml`, Ubuntu + Windows × Python 3.10 + 3.13) | GitHub, 2026-10-04 | **PASS** (4/4 jobs, runs #1 and #2) | [run #2](https://github.com/Olu-repos/europepmc-literature-mcp/actions/runs/37165453508) |
+| 15 | Manual checks M1–M5 (`scripts/manual_checks.py`, `examples/manual-checks.json`) | local Windows PC, 2026-10-04 | **DONE** (verdicts below) | `verification/manual-checks-20261004-012123.md` |
 
 Checks 2–6 are automated by `scripts/verify_local.py` (its unit-test step now runs all 50 offline tests); 11 and 12's citations by `scripts/check_citations.py`; 13 by `uv run pytest`; 14 by GitHub Actions; 7–10, 12 and 15's verdicts are manual.
 
@@ -94,7 +93,10 @@ protocol level, because a tool error is a normal result with `is_error: true`, n
 - An earlier duplicate project-scope entry (`.mcp.json`) caused a "Conflicting scopes" warning. It was
   removed with `claude mcp remove europepmc -s project`.
 - Evidence: in the demo transcript, Claude Code v2.1.285 called the `europepmc` tools 11 times
-  (3 searches, 8 article lookups), and results came back each time. The `/mcp` screen itself was not captured.
+  (3 searches, 8 article lookups), and results came back each time.
+- `/mcp` screen (Claude Code v2.1.287, captured 2026-10-04, paths replaced with placeholders): `europepmc` **connected**,
+  protocol 2026-07-28, capabilities: tools, **2 tools**, config in the user's `.claude.json` under this project (local scope).
+  Screenshot: `verification/claude-code-mcp.png`.
 
 ### 9. Project skill: PASS (2026-09-30)
 
@@ -136,8 +138,8 @@ cohort sizes (n=4, 12, 18, 38) and study-design summaries. Those would need a ma
   The run without the skill reasoned better about reverse causation.
 - Citation check for run B (12:30 BST, `examples/demo-citations-noskill.json`, output `verification/citations-20260930-123035.md`): **1 problem.**
   All 22 PMIDs resolve; every PMCID, DOI, first author and year matches. There is one misquote: "suggested",
-  attributed to PMID 31845905, is not in the abstract. A manual check is also advised for the NOSIP
-  claim (PMID 42440569): the answer says "tumour control", but the title refers to chronic infection.
+  attributed to PMID 31845905, is not in the abstract. The NOSIP claim (PMID 42440569)
+  that I flagged from its title turned out to be supported by the abstract (check 15, M3).
 - Full comparison: `examples/skill-comparison.md`.
 
 ### 13. Full test suite on your machine: PENDING
@@ -149,13 +151,22 @@ $env:REQUIRE_MCP="1"; uv run pytest; Remove-Item Env:REQUIRE_MCP
 
 Expected: `59 passed` (50 offline + 9 in-memory MCP). Record the date and the summary line here.
 
-### 14. GitHub Actions CI: PENDING
+### 14. GitHub Actions CI: PASS (2026-10-04)
 
 Runs on every push to `main` and on pull requests: `uv sync --locked`, a check that `mcp` is 2.2.0, then
 `uv run pytest` with `REQUIRE_MCP=1`, so the MCP tests fail rather than skip if the SDK is missing. No step calls
-Europe PMC. Record the first run's link and result here; the README badge shows the latest status.
+Europe PMC.
 
-### 15. Manual checks M1–M5: PENDING
+- Run #1 (commit `639912e`, 36 s) and run #2 (commit `fc3263d`, after the screenshot redaction, 31 s): **success**,
+  all 4 jobs green: Python 3.10 and 3.13 on `ubuntu-latest` and `windows-latest`. Because `REQUIRE_MCP=1` is set, the
+  in-memory MCP tests ran rather than skipped on every job. The per-job test count is in the job logs, which need a
+  GitHub login to read, so it isn't copied here.
+- GitHub warned that Node.js 20-based actions are being deprecated. The warning doesn't affect results; bumping
+  `actions/checkout` and `astral-sh/setup-uv` to their next major versions will clear it.
+- Links: [run #2](https://github.com/Olu-repos/europepmc-literature-mcp/actions/runs/37165453508),
+  [run #1](https://github.com/Olu-repos/europepmc-literature-mcp/actions/runs/37165034062).
+
+### 15. Manual checks M1–M5: DONE (2026-10-04)
 
 ```powershell
 uv run python scripts/manual_checks.py
@@ -165,10 +176,12 @@ The script prints each full abstract, which listed terms it contains and the fun
 metadata, and writes `verification/manual-checks-latest.md`. It gives no verdicts. A reader decides each one
 and records it in `examples/demo-evaluation.md` (M1, M2, M4, M5) or `examples/skill-comparison.md` (M3).
 
+Run on 2026-10-04 01:21 BST; output `verification/manual-checks-20261004-012123.md`. Verdicts:
+
 | Check | PMID | Question | Verdict |
 |---|---|---|---|
-| M1 | 42570949 | Does the abstract support "persistence", or only "expanded"? | pending |
-| M2 | 40753920 | Does it state a direct edited vs non-edited comparison? | pending |
-| M3 | 42440569 | Does it report tumour control, or only persistence in chronic infection? | pending |
-| M4 | 42526429 | Confirm the four missed points (co-therapies, prior ICI, TLS, funding) | read manually on 2026-10-02 (see `demo-evaluation.md` §3a); script confirmation pending |
-| M5 | 41486415 | Re-read for missed confounders | pending (cloud fetch rate-limited) |
+| M1 | 42570949 | Does the abstract support "persistence", or only "expanded"? | **Expansion only.** Persistence is not a reported measured outcome; it appears in the background and the authors' closing claim. The answer's "and persistence" overreaches slightly (◐) |
+| M2 | 40753920 | Does it state a direct edited vs non-edited comparison? | **Yes**, for both TCR homology and PDX tumour growth. Causal label correct (✓) |
+| M3 | 42440569 | Does it report tumour control, or only persistence in chronic infection? | **Tumour control is reported** ("In a tumor model … improved tumor control"). Run B was right; the flag raised from the title was wrong |
+| M4 | 42526429 | Confirm the four missed points (co-therapies, prior ICI, TLS, funding) | **All four confirmed** in the abstract text, including "funded by Iovance Biotherapeutics" in its Funding paragraph. Europe PMC's grant metadata does not list Iovance |
+| M5 | 41486415 | Re-read for missed confounders | **No material omission.** Minor: the responder vs non-responder contrast is 3 patients vs 1 |

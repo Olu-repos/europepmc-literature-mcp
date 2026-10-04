@@ -63,15 +63,15 @@ Checked with `uv run python scripts/check_citations.py` on 2026-09-30 01:23 BST 
 | Clonal remodelling in responders (42618927a) vs ASS1/CEP20 knockout (42618927b) | association / causal, split | Correctly separated within one paper, and noted the causal part concerns TIL function, not persistence → response | ✓ |
 | LAG-3+ TIL and persistence with PFS (42526429) | association | Label right, but the answer left out four things in the same abstract that weaken any causal reading (section 3a) | ◐ |
 | Overlap index predicts response, AUC 0.79 (42189877) | association | | ✓ |
-| mRNA antigen needed for transferred TCRtg expansion (42570949) | causal | Causal for expansion. Extending it to "persistence" goes beyond the quoted sentence, which says "expanded". **Pending:** check M1 in `examples/manual-checks.json` tests whether the abstract mentions persistence at all | ? (pending M1) |
-| PD-1 editing → retained clonotype homology (40753920) | causal | Edited vs non-edited is a controlled comparison, so reasonable. **Pending:** check M2 confirms the abstract describes that direct comparison | ? (pending M2) |
+| mRNA antigen needed for transferred TCRtg expansion (42570949) | causal | Causal for expansion: the abstract compares combination vs monotherapy and reports cells "expanded only following mRNA immunotherapy". Persistence was **not** among the outcomes the abstract says were measured (survival, expansion, phenotype, infiltration, effector function); it appears only in the background and in the authors' closing claim. So "and persistence" goes beyond the reported results (M1, 2026-10-04) | ◐ |
+| PD-1 editing → retained clonotype homology (40753920) | causal | Confirmed (M2, 2026-10-04): the abstract compares PD-1-edited with non-edited T cells for both outcomes, TCR homology ("Compared to their counterpart") and PDX tumour growth ("compared with non-edited T cells"). Preclinical (PDX), not patients | ✓ |
 | Overall: "no retrieved study experimentally manipulates clonotype persistence in patients" | synthesis | Correctly scoped to "these records" rather than the literature as a whole | ✓ |
 
 ## 3a. What the answer left out: PMID 42526429 (melanoma TIL)
 
-A manual re-read of this abstract (2026-10-02) found four points the answer did not mention. Points 1–3
-are in the abstract itself, so the abstract-only limit is not the excuse; point 4 comes from the
-record's funding statement (check M4 confirms where it appears). All four bear
+A manual re-read of this abstract (2026-10-02) found four points the answer did not mention. All four
+are in the abstract text that `get_article` returned (point 4 is in its "Funding" paragraph), so the
+abstract-only limit is not the excuse. Check M4 (2026-10-04, `verification/manual-checks-20261004-012123.md`) found every quoted phrase in the live abstract. All four bear
 directly on the association-vs-causation question the user asked.
 
 | # | Stated in the record | Why it matters for causation | In the answer? |
@@ -79,7 +79,7 @@ directly on the association-vs-causation question the user asked.
 | 1 | Patients were treated "with or without additional therapies" | Co-treatment is a confounder: response and persistence may both reflect the add-on therapy, not each other | no |
 | 2 | Prior immune checkpoint inhibitor exposure was associated with reduced CD8+ stem-like memory (TSCM) cells and co-stimulatory receptors, "suggesting impaired TIL fitness" | Treatment history affects the product and may affect persistence and response together: a common cause | no |
 | 3 | Tertiary lymphoid structures and antigen-presentation / immune programmes in the tumour were "independently associated with clinical benefit" | A rival explanation that sits in the tumour, not the infused clones | no |
-| 4 | Funded by Iovance Biotherapeutics (the TIL manufacturer) | Conflict of interest worth reporting next to the finding | no |
+| 4 | "This work was funded by Iovance Biotherapeutics" (the TIL manufacturer), alongside academic and charity funders. Europe PMC's grant metadata lists only the non-commercial funders, so the abstract is the place it shows up | Conflict of interest worth reporting next to the finding | no |
 
 The answer also left out the headline outcomes (durable ORR 36%, median PFS 8 months) and that the
 data were pooled from several early-phase trials. It did say the abstract gives no cohort size,
@@ -87,12 +87,14 @@ which is correct.
 
 **Effect on the score:** the association label for 42526429 stays correct, but the answer presented
 "enhanced peripheral TIL persistence" in responders without the confounders and rival explanation
-the same abstract offers. That row is now ◐ (partial). Check M4 in `examples/manual-checks.json`
-re-confirms each quoted phrase against the live abstract and lists the funder from Europe PMC's
-grant metadata.
+the same abstract offers. That row is now ◐ (partial).
 
-**Not yet re-read:** PMID 41486415 (acral melanoma, n=4). Its fetch was rate-limited (HTTP 429);
-check M5 covers it.
+**Re-read of PMID 41486415 (acral melanoma), M5, 2026-10-04:** no material omission. The answer gave
+the design (investigator-initiated trial, 4 patients), placed the persisting clone in the single
+complete responder, and declined the abstract's "mechanistically linked" wording. One detail it
+could have added: the responder vs non-responder contrast rests on **one** non-responder (ORR 25%,
+DCR 75% in 4 patients), so "significantly enriched" compares 3 patients with 1. No co-therapies or
+commercial funding are stated in this abstract.
 
 ## 4. Admitting the limits of an abstract
 
@@ -110,7 +112,13 @@ check M5 covers it.
 - **What failed:** Opus 5.5's safeguards flagged the demonstration question, which is ordinary T-cell literature research ("Details: `[bio]`"). The session switched automatically to Opus 5, which produced the answer, so this run does **not** show Opus 5.5 using the tools.
 - **Citations:** 8/8 PMIDs and PMCIDs correct, 13/13 quotes found verbatim in the abstracts, and no invented identifiers.
 - **Missed in an abstract it did read:** for 42526429 the answer left out co-therapies, the effect of prior checkpoint-inhibitor exposure, an independent tumour-side predictor, and industry funding (section 3a). Reading the full abstract is necessary, but the skill didn't ask Claude to report confounders, so it didn't.
-- **Open manual checks (pending until `scripts/manual_checks.py` output is recorded):** M1, whether 42570949's abstract supports "persistence" or only "expanded"; M2, whether 40753920 states a direct edited-vs-non-edited comparison (the title, "PD-1 attenuation enhances TIL-based adoptive cellular therapy in humanized-PDX model", suggests so); M5, a re-read of 41486415 for missed points. M3 (NOSIP, PMID 42440569) belongs to the run without the skill and is recorded in `skill-comparison.md`.
+- **Manual checks, resolved 2026-10-04** (`scripts/manual_checks.py`, `verification/manual-checks-20261004-012123.md`):
+  - M1 (42570949): causal for expansion, yes; for persistence, no. Persistence wasn't a reported measured outcome. ◐
+  - M2 (40753920): direct edited vs non-edited comparison for both outcomes. ✓
+  - M4 (42526429): all four missed points confirmed in the abstract. ◐ stands
+  - M5 (41486415): no material omission; the responder contrast is 3 vs 1 patients.
+  - M3 (NOSIP) belongs to the run without the skill; see `skill-comparison.md`.
+- **Overall association vs causation score:** 7 ✓, 2 ◐, 0 ✗ of 9 rows. Both partials are the same kind of slip: a claim stretched a little past what the abstract reports (M1), or left out context the abstract gives (42526429).
 - **Change to try next:**
   1. Skill: ask for the label "causal (for X, not for persistence → response)" to be written out every time. The answer did this in prose but not consistently in the table.
   2. Server: add an optional `sort` parameter (e.g. by date or citations), since relevance order biased the sample towards 2025–26 papers.
